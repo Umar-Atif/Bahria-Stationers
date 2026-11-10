@@ -1,8 +1,10 @@
+
 import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
 
 import connectDB from './config/db.js'
+import Order from './models/Order.js'
 
 import institutionRoutes from './routes/institutionRoutes.js'
 import classRoutes from './routes/classRoutes.js'
@@ -28,7 +30,49 @@ app.use(cors({
 app.use(express.json())
 
 app.get('/', (req, res) => {
-    res.json({ success: true, message: 'Stationery Store API is running!' })
+    res.json({
+        success: true,
+        message: 'Stationery Store API is running!'
+    })
+})
+
+// Database initialization
+let initializationPromise
+
+const initializeDatabase = async () => {
+    await connectDB()
+
+    await Order.collection.createIndex(
+        { user: 1, idempotencyKey: 1 },
+        {
+            unique: true,
+            partialFilterExpression: {
+                idempotencyKey: { $type: 'string' },
+            },
+        }
+    )
+
+    console.log('Order idempotency index verified')
+}
+
+// Connect database before API requests
+app.use(async (req, res, next) => {
+    try {
+        if (!initializationPromise) {
+            initializationPromise = initializeDatabase()
+        }
+
+        await initializationPromise
+        next()
+    } catch (error) {
+        initializationPromise = null
+        console.error('Database initialization failed:', error.message)
+
+        res.status(503).json({
+            success: false,
+            message: 'Database connection failed'
+        })
+    }
 })
 
 // Routes
@@ -43,32 +87,4 @@ app.use('/api/orders', orderRoutes)
 app.use('/api/admin/orders', adminOrderRoutes)
 app.use('/api/cart', cartRoutes)
 
-const PORT = process.env.PORT || 5000
-
-import Order from './models/Order.js'
-
-const startServer = async () => {
-    await connectDB()
-
-    await Order.collection.createIndex(
-        { user: 1, idempotencyKey: 1 },
-        {
-            unique: true,
-            partialFilterExpression: {
-                idempotencyKey: { $type: 'string' },
-            },
-        }
-    )
-
-    console.log('Order idempotency index verified')
-
-    app.listen(PORT, () => {
-        console.log(`Server is running`)
-    })
-}
-
-startServer().catch((error) => {
-    console.error('Server startup failed:', error.message)
-    process.exit(1)
-})
-
+export default app
