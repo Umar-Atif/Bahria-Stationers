@@ -56,10 +56,10 @@ function Footer() {
                             </Link>
 
                             <Link
-                                to="/categories"
+                                to="/institutions"
                                 className="transition-colors hover:text-[#58765D]"
                             >
-                                Categories
+                                Institutions
                             </Link>
 
                             <Link

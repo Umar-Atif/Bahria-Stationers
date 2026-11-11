@@ -153,7 +153,7 @@ function Institution() {
                         This institution may no longer be available.
                     </p>
                     <Link
-                        to="/categories"
+                        to="/institutions"
                         className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#203653] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#2D496B]"
                     >
                         <ArrowLeft size={16} />
@@ -174,7 +174,7 @@ function Institution() {
             <div className="mx-auto max-w-7xl px-5 py-8 sm:py-10 lg:px-8">
                 {/* Breadcrumb */}
                 <Link
-                    to="/categories"
+                    to="/institutions"
                     className="inline-flex items-center gap-2 text-sm font-medium text-[#64748B] transition hover:text-[#203653]"
                 >
                     <ArrowLeft size={17} />

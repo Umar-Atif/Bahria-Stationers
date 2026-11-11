@@ -361,10 +361,10 @@ function Stationery() {
                         </div>
 
                         <Link
-                            to="/categories"
+                            to="/institutions"
                             className="inline-flex shrink-0 items-center justify-center gap-2 self-start rounded-xl bg-white px-5 py-3 text-sm font-bold text-[#203653] transition hover:bg-[#EBF2F7] sm:self-center"
                         >
-                            Browse categories
+                            Browse institutions
                             <ArrowRight size={16} />
                         </Link>
                     </div>

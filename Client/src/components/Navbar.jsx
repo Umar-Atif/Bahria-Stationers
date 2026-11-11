@@ -72,7 +72,7 @@ function Navbar() {
 
     const customerLinks = [
         { label: 'Home', to: '/' },
-        { label: 'Categories', to: '/categories' },
+        { label: 'Institutions', to: '/institutions' },
         { label: 'Stationery', to: '/stationery' },
     ]
 

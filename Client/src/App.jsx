@@ -72,7 +72,7 @@ function App() {
             />
 
             <Route
-              path="/categories"
+              path="/institutions"
               element={<Categories />}
             />
 

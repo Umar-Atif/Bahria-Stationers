@@ -137,10 +137,10 @@ function Home() {
 
                         <div className="mt-8 flex flex-wrap gap-3">
                             <Link
-                                to="/categories"
+                                to="/institutions"
                                 className="inline-flex items-center gap-2 rounded-xl bg-[#203653] px-6 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#2D496B]"
                             >
-                                Explore categories
+                                Explore institutions
                                 <ArrowRight size={17} />
                             </Link>
 
@@ -273,7 +273,7 @@ function Home() {
                         </div>
 
                         <Link
-                            to="/categories"
+                            to="/institutions"
                             className="inline-flex w-fit items-center gap-2 text-sm font-semibold text-[#203653] transition hover:text-[#77917A]"
                         >
                             View all institutions
