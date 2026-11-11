@@ -23,8 +23,6 @@ const API_URL =
 function Home() {
     const [products, setProducts] = useState([])
     const [institutions, setInstitutions] = useState([])
-    const [institutionsLoading, setInstitutionsLoading] = useState(true)
-    const [institutionsError, setInstitutionsError] = useState('')
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState('')
     const [email, setEmail] = useState('')
@@ -79,41 +77,26 @@ function Home() {
     }, [])
 
     useEffect(() => {
-        let cancelled = false
-
         async function fetchInstitutions() {
             try {
-                setInstitutionsLoading(true)
-                setInstitutionsError('')
-
                 const response = await fetch(`${API_URL}/api/institutions`)
                 const result = await response.json()
 
-                if (!response.ok || result.success === false) {
-                    throw new Error(result.message || 'Unable to load institutions.')
+                if (!response.ok || !result.success) {
+                    throw new Error(result.message || 'Unable to load institutions')
                 }
 
-                if (!cancelled) {
-                    setInstitutions(
-                        Array.isArray(result.data)
-                            ? result.data.filter((institution) => institution.isActive !== false)
-                            : []
-                    )
-                }
-            } catch (err) {
-                if (!cancelled) {
-                    setInstitutionsError(err.message || 'Unable to load institutions.')
-                }
-            } finally {
-                if (!cancelled) setInstitutionsLoading(false)
+                setInstitutions(
+                    Array.isArray(result.data)
+                        ? result.data
+                        : []
+                )
+            } catch (error) {
+                console.error('Institution fetch error:', error)
             }
         }
 
         fetchInstitutions()
-
-        return () => {
-            cancelled = true
-        }
     }, [])
 
     function handleNewsletterSubmit(event) {
@@ -271,17 +254,21 @@ function Home() {
             {/* Institutions */}
             <section className="bg-white py-16 sm:py-20">
                 <div className="mx-auto max-w-7xl px-5 lg:px-8">
+
+                    {/* Section Heading */}
                     <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
                         <div>
                             <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#77917A]">
-                                Find your institution
+                                Your learning journey starts here
                             </p>
+
                             <h2 className="mt-3 font-serif text-3xl font-bold text-[#203653] sm:text-4xl">
-                                Shop by institution
+                                Shop by Institution
                             </h2>
+
                             <p className="mt-3 max-w-lg text-sm leading-7 text-[#526071] sm:text-base">
-                                Choose your school or college, then select your class
-                                to explore the books and copies you need.
+                                Find books, copies and essential supplies
+                                specially selected for your institution.
                             </p>
                         </div>
 
@@ -294,68 +281,89 @@ function Home() {
                         </Link>
                     </div>
 
-                    {institutionsError ? (
-                        <div role="alert" className="mt-8 rounded-xl border border-red-200 bg-[#F5F7FA] p-4 text-sm text-red-700">
-                            {institutionsError}
-                        </div>
-                    ) : institutionsLoading ? (
-                        <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-                            {[1, 2, 3, 4, 5].map((item) => (
-                                <div key={item} className="animate-pulse overflow-hidden rounded-2xl border border-[#DCE3EB] bg-[#F5F7FA] p-5">
-                                    <div className="h-10 w-10 rounded-xl bg-[#E5EAF0]" />
-                                    <div className="mt-8 h-4 w-3/4 rounded bg-[#E5EAF0]" />
-                                    <div className="mt-4 h-3 w-1/2 rounded bg-[#E5EAF0]" />
-                                </div>
-                            ))}
-                        </div>
-                    ) : institutions.length > 0 ? (
-                        <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-                            {institutions.slice(0, 5).map((institution, index) => (
-                                <Link
-                                    key={institution._id}
-                                    to={`/institution/${institution.slug}`}
-                                    className="group relative flex min-h-48 flex-col justify-between overflow-hidden rounded-2xl border border-[#DCE3EB] bg-[#F5F7FA] p-5 transition duration-300 hover:-translate-y-1 hover:border-[#77917A] hover:bg-white hover:shadow-[0_18px_35px_-22px_rgba(32,54,83,0.3)] sm:p-6"
-                                >
-                                    <div className="flex items-start justify-between gap-2">
-                                        <span className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl bg-[#EAF0EA] text-[#46634D] transition group-hover:bg-[#203653] group-hover:text-white">
-                                            {institution.image ? (
-                                                <img
-                                                    src={institution.image}
-                                                    alt={institution.name}
-                                                    className="h-full w-full object-cover"
-                                                />
-                                            ) : (
-                                                <School size={21} />
-                                            )}
-                                        </span>
-                                        <span className="text-xs font-semibold tracking-wider text-[#94A3B8]">
-                                            {String(index + 1).padStart(2, '0')}
-                                        </span>
+                    {/* Institution Cards */}
+                    <div className="mt-9 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                        {institutions.map((institution, index) => (
+                            <Link
+                                key={institution._id}
+                                to={`/institution/${institution.slug}`}
+                                className="group relative isolate min-h-[280px] overflow-hidden rounded-[1.5rem] bg-[#203653] shadow-sm transition duration-500 hover:-translate-y-1 hover:shadow-[0_22px_45px_-18px_rgba(32,54,83,0.35)] sm:min-h-[320px]"
+                            >
+                                {/* Background Image */}
+                                {institution.image ? (
+                                    <img
+                                        src={institution.image}
+                                        alt={institution.name}
+                                        loading="lazy"
+                                        className="absolute inset-0 -z-20 h-full w-full object-cover transition duration-700 group-hover:scale-110"
+                                    />
+                                ) : (
+                                    <div className="absolute inset-0 -z-20 flex items-center justify-center bg-gradient-to-br from-[#203653] to-[#526F8F]">
+                                        <GraduationCap
+                                            size={100}
+                                            strokeWidth={0.8}
+                                            className="text-white/20"
+                                        />
                                     </div>
+                                )}
 
-                                    <div className="mt-7">
-                                        <h3 className="line-clamp-2 text-base font-bold leading-snug text-[#203653] sm:text-lg">
-                                            {institution.name}
-                                        </h3>
-                                        <div className="mt-4 flex items-center justify-between text-sm font-semibold text-[#64748B] transition group-hover:text-[#203653] capitalize">
-                                            <span>{institution.type || 'Institution'}</span>
-                                            <ArrowRight size={17} className="transition-transform group-hover:translate-x-1" />
+                                {/* Gradient Overlay */}
+                                <div className="absolute inset-0 -z-10 bg-gradient-to-t from-[#101F32] via-[#172A43]/55 to-transparent" />
+
+                                {/* Top Badge */}
+                                <div className="absolute left-5 top-5">
+                                    <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/15 px-3.5 py-2 text-[10px] font-bold uppercase tracking-[0.15em] text-white backdrop-blur-md">
+                                        <School size={14} />
+                                        {institution.type || 'Institution'}
+                                    </span>
+                                </div>
+
+                                {/* Card Content */}
+                                <div className="absolute inset-x-0 bottom-0 p-6 sm:p-7">
+                                    <div className="flex items-end justify-between gap-4">
+                                        <div className="min-w-0">
+                                            <p className="mb-2 flex items-center gap-2 text-xs font-medium text-[#C9D8CA]">
+                                                <BookOpen size={14} />
+                                                Books & Study Essentials
+                                            </p>
+
+                                            <h3 className="line-clamp-2 font-serif text-2xl font-bold leading-tight text-white sm:text-3xl">
+                                                {institution.name}
+                                            </h3>
+
+                                            <p className="mt-3 text-sm font-medium text-white/70 transition group-hover:text-white">
+                                                Explore institution
+                                            </p>
                                         </div>
+
+                                        <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white text-[#203653] transition duration-300 group-hover:bg-[#77917A] group-hover:text-white">
+                                            <ArrowRight
+                                                size={20}
+                                                className="transition-transform group-hover:translate-x-1"
+                                            />
+                                        </span>
                                     </div>
-                                </Link>
-                            ))}
-                        </div>
-                    ) : (
-                        <div className="mt-8 rounded-2xl border border-dashed border-[#C8D2DE] bg-[#F5F7FA] px-5 py-12 text-center">
-                            <GraduationCap size={30} className="mx-auto text-[#77917A]" />
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
+
+                    {/* Empty State */}
+                    {institutions.length === 0 && (
+                        <div className="mt-9 rounded-2xl border border-dashed border-[#C8D2DE] bg-[#F5F7FA] px-5 py-12 text-center">
+                            <GraduationCap
+                                size={35}
+                                className="mx-auto text-[#77917A]"
+                            />
                             <h3 className="mt-4 font-serif text-xl font-bold text-[#203653]">
-                                Institutions will appear here
+                                Institutions coming soon
                             </h3>
                             <p className="mt-2 text-sm text-[#526071]">
-                                There are no institutions available right now.
+                                Institutions will appear here when available.
                             </p>
                         </div>
                     )}
+
                 </div>
             </section>
 
