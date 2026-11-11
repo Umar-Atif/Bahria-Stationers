@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAppContext } from '../context/AppContext'
-import { Eye, EyeClosed, EyeOff } from 'lucide-react'
+import { Eye, EyeOff } from 'lucide-react'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
 
@@ -57,8 +57,8 @@ function AdminLogin() {
         className="pointer-events-none absolute -bottom-28 -right-20 h-80 w-80 rounded-full bg-[#203653]/10 blur-3xl"
       />
 
-      <div className="relative grid w-full max-w-5xl overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl shadow-slate-900/5 md:grid-cols-2">
-        <section className="relative flex flex-col justify-between overflow-hidden bg-[#203653] p-8 text-white sm:p-10 lg:p-12">
+      <div className="relative grid w-full max-w-6xl overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl shadow-slate-900/5 md:grid-cols-2">
+        <section className="relative flex flex-col justify-between overflow-hidden bg-[#203653] p-6 text-white sm:p-8 lg:p-10">
           <div
             aria-hidden="true"
             className="absolute -right-20 top-20 h-56 w-56 rounded-full border border-white/10"
@@ -69,12 +69,13 @@ function AdminLogin() {
           />
 
           <div className="relative">
-            <div className="mb-10 inline-flex items-center gap-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white text-lg font-black text-[#203653]">
-                P
+
+            <div className="mb-8 flex items-center gap-2 sm:gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-lg font-black text-[#203653] sm:h-11 sm:w-11">
+                B
               </div>
-              <span className="text-xl font-bold tracking-wide">
-                {/* PAPER<span className="text-[#A9C2AB]">&</span>PEN */}
+
+              <span className="min-w-0 text-sm font-bold tracking-tight text-white sm:text-lg lg:text-xl leading-tight">
                 BAHRIA STATIONERS
               </span>
             </div>

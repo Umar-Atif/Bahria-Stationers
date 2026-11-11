@@ -101,26 +101,26 @@ function Navbar() {
 
     return (
         <header className="sticky top-0 z-50 border-b border-[#344B68] bg-[#172A43] text-white shadow-[0_4px_18px_rgba(15,23,42,0.22)]">
-            <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
+            <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 px-3 py-3 sm:gap-3 sm:px-6 lg:px-8">
+
 
                 {/* Brand */}
                 <Link
                     to={isAdmin ? '/admin' : '/'}
                     onClick={closeMenus}
-                    className="group flex shrink-0 items-center gap-2.5"
+                    className="group flex min-w-0 shrink items-center gap-2 sm:gap-2.5"
                     aria-label="BAHRIA STATIONERS Home"
                 >
-                    <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/15 bg-white text-lg font-black text-[#203653] shadow-sm transition group-hover:bg-[#E8EFE8]">
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-white/15 bg-white text-base font-black text-[#203653] shadow-sm transition group-hover:bg-[#E8EFE8] sm:h-10 sm:w-10 sm:rounded-xl sm:text-lg">
                         B
                     </span>
 
-                    <span>
-                        <span className="block text-lg font-black tracking-tight text-white sm:text-xl">
-                            {/* PAPER<span className="text-[#A9C2AB]">&</span>PEN */}
+                    <span className="min-w-0">
+                        <span className="block whitespace-nowrap text-xs font-black tracking-tight text-white sm:text-lg lg:text-xl">
                             BAHRIA STATIONERS
                         </span>
 
-                        <span className="mt-0.5 hidden text-[9px] font-semibold uppercase tracking-[0.17em] text-slate-300 sm:block">
+                        <span className="mt-0.5 hidden text-[9px] font-semibold uppercase tracking-[0.12em] text-slate-300 sm:block">
                             {isAdmin
                                 ? 'Admin Portal'
                                 : 'Your Everyday Study Companion'}
@@ -196,8 +196,8 @@ function Navbar() {
                                 aria-expanded={profileOpen}
                                 onClick={() => setProfileOpen((previous) => !previous)}
                                 className={`flex h-10 items-center gap-2 rounded-xl border px-3 transition focus:outline-none focus:ring-4 focus:ring-[#A9C2AB]/20 ${profileOpen
-                                        ? 'border-[#A9C2AB] bg-[#77917A] text-white'
-                                        : 'border-white/20 bg-white/5 text-white hover:border-[#A9C2AB] hover:bg-white/10'
+                                    ? 'border-[#A9C2AB] bg-[#77917A] text-white'
+                                    : 'border-white/20 bg-white/5 text-white hover:border-[#A9C2AB] hover:bg-white/10'
                                     }`}
                             >
                                 <UserRound size={18} />
