@@ -337,7 +337,7 @@ function Home() {
                                         <h3 className="line-clamp-2 text-base font-bold leading-snug text-[#203653] sm:text-lg">
                                             {institution.name}
                                         </h3>
-                                        <div className="mt-4 flex items-center justify-between text-sm font-semibold text-[#64748B] transition group-hover:text-[#203653]">
+                                        <div className="mt-4 flex items-center justify-between text-sm font-semibold text-[#64748B] transition group-hover:text-[#203653] capitalize">
                                             <span>{institution.type || 'Institution'}</span>
                                             <ArrowRight size={17} className="transition-transform group-hover:translate-x-1" />
                                         </div>
