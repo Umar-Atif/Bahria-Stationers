@@ -25,102 +25,101 @@ import ScrollToTop from './components/ScrollToTop'
 function App() {
   return (
     <BrowserRouter>
-      <ScrollToTop>
-        <AppProvider>
-          <Routes>
-            <Route element={<MainLayout />}>
-              <Route path="/" element={<Home />} />
+      <ScrollToTop />
+      <AppProvider>
+        <Routes>
+          <Route element={<MainLayout />}>
+            <Route path="/" element={<Home />} />
 
+            <Route
+              path="/institution/:institutionId"
+              element={<Institution />}
+            />
+
+            <Route
+              path="/institution/:institutionId/class/:classId"
+              element={<ClassPage />}
+            />
+
+            <Route
+              path="/stationery"
+              element={<Stationery />}
+            />
+
+            <Route
+              path="/product/:productId"
+              element={<ProductDetails />}
+            />
+
+            <Route
+              path="/login"
+              element={<Login />}
+            />
+
+            <Route
+              path="/signup"
+              element={<Signup />}
+            />
+
+            <Route
+              path="/cart"
+              element={<Cart />}
+            />
+
+            <Route
+              path="/admin/login"
+              element={<AdminLogin />}
+            />
+
+            <Route
+              path="/categories"
+              element={<Categories />}
+            />
+
+            {/* Login-required routes */}
+            <Route element={<ProtectedRoute />}>
               <Route
-                path="/institution/:institutionId"
-                element={<Institution />}
+                path="/checkout"
+                element={<Checkout />}
               />
 
               <Route
-                path="/institution/:institutionId/class/:classId"
-                element={<ClassPage />}
+                path="/profile"
+                element={<Profile />}
               />
 
               <Route
-                path="/stationery"
-                element={<Stationery />}
+                path="/orders"
+                element={<MyOrders />}
               />
-
-              <Route
-                path="/product/:productId"
-                element={<ProductDetails />}
-              />
-
-              <Route
-                path="/login"
-                element={<Login />}
-              />
-
-              <Route
-                path="/signup"
-                element={<Signup />}
-              />
-
-              <Route
-                path="/cart"
-                element={<Cart />}
-              />
-
-              <Route
-                path="/admin/login"
-                element={<AdminLogin />}
-              />
-
-              <Route
-                path="/categories"
-                element={<Categories />}
-              />
-
-              {/* Login-required routes */}
-              <Route element={<ProtectedRoute />}>
-                <Route
-                  path="/checkout"
-                  element={<Checkout />}
-                />
-
-                <Route
-                  path="/profile"
-                  element={<Profile />}
-                />
-
-                <Route
-                  path="/orders"
-                  element={<MyOrders />}
-                />
-              </Route>
-
-              {/* Admin-only route */}
-              <Route element={<ProtectedRoute allowedRole="admin" />}>
-                <Route
-                  path="/admin"
-                  element={<AdminDashboard />}
-                />
-
-                <Route
-                  path="/admin/orders"
-                  element={<AdminOrders />} />
-
-                <Route
-                  path="/admin/products"
-                  element={<AdminProducts />} />
-
-                <Route
-                  path="/admin/institutions"
-                  element={<AdminInstitutions />} />
-
-                <Route
-                  path="/admin/classes"
-                  element={<AdminClasses />} />
-              </Route>
             </Route>
-          </Routes>
-        </AppProvider>
-      </ScrollToTop>
+
+            {/* Admin-only route */}
+            <Route element={<ProtectedRoute allowedRole="admin" />}>
+              <Route
+                path="/admin"
+                element={<AdminDashboard />}
+              />
+
+              <Route
+                path="/admin/orders"
+                element={<AdminOrders />} />
+
+              <Route
+                path="/admin/products"
+                element={<AdminProducts />} />
+
+              <Route
+                path="/admin/institutions"
+                element={<AdminInstitutions />} />
+
+              <Route
+                path="/admin/classes"
+                element={<AdminClasses />} />
+            </Route>
+          </Route>
+        </Routes>
+      </AppProvider>
     </BrowserRouter>
   )
 }
